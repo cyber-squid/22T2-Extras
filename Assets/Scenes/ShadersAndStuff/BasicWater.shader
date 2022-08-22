@@ -96,10 +96,10 @@ Shader "Unlit/BasicWater"
 
                 vertOutput.uv = TRANSFORM_TEX(vertInput.uv, _FoamTex); // scale and offset the given texture, by taking the ST data of that texture and editing
 
-                float waveNoiseSample = tex2Dlod(_WaveNoiseTex, float4(vertInput.uv2.xy, 0, 0)); // sample a point on the wave texture
-                float waveNoise = sin(_Time + _WaveSpeed * waveNoiseSample) * _WaveIntensity; // multiply 
-                vertOutput.vertex.x += sin(_Time*_WaveSpeed*waveNoiseSample) * _WaveIntensity; // offset the given vertex's position by adding 
-                vertOutput.vertex.y += sin(_Time*_WaveSpeed*waveNoiseSample) * _WaveIntensity;//TRANSFORM_TEX(vertInput.uv, _WaveNoiseTex);
+                float waveNoiseSample = tex2Dlod(_WaveNoiseTex, float4(vertInput.uv2.xy, 0, 0)); // sample a point on the noise texture to get a "random" float value
+                float waveNoise = sin(_Time * _WaveSpeed * waveNoiseSample); // multiply our value by time to change it over time, and use sine wave to create a back and forth in the value
+                vertOutput.vertex.xy += waveNoise * _WaveIntensity; // offset the given vertex's position by adding the "randomised" value to it
+                //vertOutput.vertex.y += waveNoise;//TRANSFORM_TEX(vertInput.uv, _WaveNoiseTex);
 
                 vertOutput.depthScreenPos = ComputeScreenPos(vertOutput.vertex); // compute the depth value of the given vertex being calculated
 

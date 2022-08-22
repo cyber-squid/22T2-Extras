@@ -1,0 +1,9 @@
+C:\Users\User\source\repos\PathingAPI\bin\Debug\PathingAPI.dll
+C:\Users\User\source\repos\PathingAPI\bin\Debug\PathingAPI.pdb
+C:\Users\User\source\repos\PathingAPI\bin\Debug\UnityEngine.dll
+C:\Users\User\source\repos\PathingAPI\bin\Debug\UnityEngine.xml
+C:\Users\User\source\repos\PathingAPI\obj\Debug\PathingAPI.csproj.AssemblyReference.cache
+C:\Users\User\source\repos\PathingAPI\obj\Debug\PathingAPI.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\PathingAPI\obj\Debug\PathingAPI.csproj.CopyComplete
+C:\Users\User\source\repos\PathingAPI\obj\Debug\PathingAPI.dll
+C:\Users\User\source\repos\PathingAPI\obj\Debug\PathingAPI.pdb
