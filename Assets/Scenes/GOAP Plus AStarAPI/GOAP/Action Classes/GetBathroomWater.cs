@@ -6,11 +6,8 @@ public class GetBathroomWater : Action
 {
     public GetBathroomWater(GOAPBase gBase)
     {
-        this.actionEffect = "Got Water";
-        this.neededEffect = new string[] { "Got Cup" };
-
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.gotWater;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
+        prerequisiteToComplete = gBase.listOfPrerequisites.gotWater;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
     }
 
     protected override IEnumerator PerformAction(GOAPBase gBase)

@@ -6,11 +6,10 @@ public class GetSweetener : Action
 {
     public GetSweetener(GOAPBase gBase)
     {
-        actionEffect = "Got Sugar";
-        neededEffect = new string[] { "Got Cup" };
-
         prerequisiteToComplete = gBase.listOfPrerequisites.gotSugar;
         givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
+
+        failMessage = "We're out of sweeteners, too!";
 
         percentChanceToFail = 10;
     }

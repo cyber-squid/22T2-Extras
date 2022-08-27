@@ -6,11 +6,10 @@ public class FindCup : Action
 {
     public FindCup(GOAPBase gBase)
     {
-        this.actionEffect = "Got Cup";
-        this.neededEffect = new string[] { "None" };
+        prerequisiteToComplete = gBase.listOfPrerequisites.gotCup;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.noPrerequisites };
 
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.gotCup;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.noPrerequisites };
+        failMessage = "We don't have any cups in the cupboard";
 
         percentChanceToFail = 10;
     }

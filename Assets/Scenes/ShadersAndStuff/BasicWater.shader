@@ -28,8 +28,8 @@ Shader "Unlit/BasicWater"
     {
         Tags { "Queue" = "Transparent" "RenderType"="Transparent"} // { "RenderType"="Opaque" }
 
-        ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha 
+        Blend SrcAlpha OneMinusSrcAlpha // set the blending mode of pixels to one minus the alpha
+
         // where we do all our render calculations
         Pass
         {
@@ -60,7 +60,7 @@ Shader "Unlit/BasicWater"
                 float4 vertex : SV_POSITION;
                 //float4 waveVertex;
 
-                float4 depthScreenPos : TEXCOORD2; // value for the depth factor of water (calculated with depth texture)
+                float4 vertexScreenPos : TEXCOORD2; // value for the depth factor of water (calculated with depth texture)
             };
 
 
@@ -96,12 +96,12 @@ Shader "Unlit/BasicWater"
 
                 vertOutput.uv = TRANSFORM_TEX(vertInput.uv, _FoamTex); // scale and offset the given texture, by taking the ST data of that texture and editing
 
-                float waveNoiseSample = tex2Dlod(_WaveNoiseTex, float4(vertInput.uv2.xy, 0, 0)); // sample a point on the noise texture to get a "random" float value
+                float waveNoiseSample = tex2Dlod(_WaveNoiseTex, float4(vertInput.uv2, 0, 0)); // sample a point on the noise texture to get a "random" float value
                 float waveNoise = sin(_Time * _WaveSpeed * waveNoiseSample); // multiply our value by time to change it over time, and use sine wave to create a back and forth in the value
                 vertOutput.vertex.xy += waveNoise * _WaveIntensity; // offset the given vertex's position by adding the "randomised" value to it
                 //vertOutput.vertex.y += waveNoise;//TRANSFORM_TEX(vertInput.uv, _WaveNoiseTex);
 
-                vertOutput.depthScreenPos = ComputeScreenPos(vertOutput.vertex); // compute the depth value of the given vertex being calculated
+                vertOutput.vertexScreenPos = ComputeScreenPos(vertOutput.vertex); // compute the depth value of the given vertex being calculated. gets the position of the point in the camera space
 
                 return vertOutput;
             }
@@ -110,8 +110,8 @@ Shader "Unlit/BasicWater"
             float4 frag (v2f fragInput) : SV_Target
             {
                 
-                float4 depthSample = tex2Dproj(_CameraDepthTexture, fragInput.depthScreenPos); // sample the camera's depth texture using the given vertex depth to translate to world space. tex2Dproj is tex2D, except xy / w
-                float4 linearDepth = LinearEyeDepth(depthSample); // get the linear version of our depth sample  // Linear01Depth(depthSample);
+                float4 depthSample = tex2Dproj(_CameraDepthTexture, fragInput.vertexScreenPos); // sample the camera's depth texture using the given vertex depth to translate to world space. tex2Dproj is tex2D, except xy / w
+                float4 linearDepth = LinearEyeDepth(depthSample); // get the linear version of our depth sample  
                 //float4 getDepth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, fragInput.depthScreenPos);
                 //UNITY_OUTPUT_DEPTH(fragInput.depthScreenPos);
 
@@ -119,15 +119,15 @@ Shader "Unlit/BasicWater"
                 float4 foamSample = tex2D(_FoamTex, currentFoamUV); // sample the texture, use the sampler to get the color value of the texture at the given uv pixel coordinate
                 
                 //float4 depthDiff = linearDepth.w - fragInput.depthScreenPos.w; // (linearDepth.x, linearDepth.y, linearDepth.z, linearDepth.w - fragInput.depthScreenPos.w);
-                float4 maximizedDepth = clamp((linearDepth.w - fragInput.depthScreenPos.w) * _MaxDepth, 0, 1);  // get the difference between the current depth and the surface (depthScreenPos.w gives surface depth), then divide by the max depth render
-                float4 waterCol = lerp(_ShallowDepthCol, _SeafloorDepthCol, maximizedDepth); // lerp between the two colours of shallow and deep water, depending on the depth value
+                float maximumDepth = clamp((linearDepth.w - fragInput.vertexScreenPos.w) * _MaxDepth, 0, 1);  // get the difference between the current depth and the surface (depthScreenPos.w gives surface depth), then divide by the max depth render
+                float4 waterCol = lerp(_ShallowDepthCol, _SeafloorDepthCol, maximumDepth); // lerp between the two colours of shallow and deep water, depending on the depth value
 
                 //float4 foamCol = float4(tex2D(_FoamTex, float2(waterCol, 0.5)).rgb, 1.0);
-                float4 maxFoamAtDepth = maximizedDepth * _FoamCutoff; // multiply with depth to have sampled foam texture concentrate at shallow depth
+                float maxFoamAtDepth = maximumDepth * _FoamCutoff; // multiply with depth to have sampled foam texture concentrate at shallow depth
                 float4 finalFoam = foamSample > maxFoamAtDepth; // give us the foam from the text only if the value of the sampled point is higher than the given cutoff value
 
                 //float waveMovement = tex2D(_WaveNoiseTex, fragInput.uv2.xy, 0, 0);
-                fixed4 transparency = (1, 1, 1, _WaterTransparency);
+                fixed4 transparency = (1, 1, 1, _WaterTransparency); // add some transparency to the water
                 return fixed4((waterCol.rgb + finalFoam.rgb), transparency.a);
             }
 

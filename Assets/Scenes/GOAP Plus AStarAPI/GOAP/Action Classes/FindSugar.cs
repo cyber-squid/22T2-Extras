@@ -6,13 +6,13 @@ public class FindSugar : Action
 {
     public FindSugar(GOAPBase gBase)
     {
-        this.actionEffect = "Got Sugar";
-        this.neededEffect = new string[] { "Got Cup" };
+        prerequisiteToComplete = gBase.listOfPrerequisites.gotSugar;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
 
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.gotSugar;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
+        failMessage = "There's no sugar in the jar!";
 
         percentChanceToFail = 30;
+        priorityLevel = 60;
     }
 
     protected override IEnumerator PerformAction(GOAPBase gBase)

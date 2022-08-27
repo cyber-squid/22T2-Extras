@@ -6,13 +6,13 @@ public class GetKitchenWater : Action
 {
     public GetKitchenWater(GOAPBase gBase)
     {
-        this.actionEffect = "Got Water";
-        this.neededEffect = new string[] { "Got Cup" };
+        prerequisiteToComplete = gBase.listOfPrerequisites.gotWater;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
 
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.gotWater;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotCup };
+        failMessage = "The sink is out of order!";
 
         percentChanceToFail = 30;
+        priorityLevel = 70;
     }
 
     protected override IEnumerator PerformAction(GOAPBase gBase)

@@ -60,7 +60,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WaveNoiseTex:
-        m_Texture: {fileID: 2800000, guid: 53a718668438adc4f8a66e2f2fa7ce26, type: 3}
+        m_Texture: {fileID: 2800000, guid: bd12df3704cbe76489b2b1730b667117, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _WaveTex:
@@ -86,9 +86,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
-    - _WaterTransparency: 0.73
+    - _WaterTransparency: 0.67
     - _WaveIntensity: 0.15
-    - _WaveSpeed: 67.1
+    - _WaveSpeed: 66.32
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}

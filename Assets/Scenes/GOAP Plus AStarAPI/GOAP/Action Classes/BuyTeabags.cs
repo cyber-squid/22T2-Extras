@@ -6,11 +6,10 @@ public class BuyTeabags : Action
 {
     public BuyTeabags(GOAPBase gBase)
     {
-        this.actionEffect = "Got Teabag";
-        this.neededEffect = new string[] { "None" };
+        prerequisiteToComplete = gBase.listOfPrerequisites.gotTeabag;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.noPrerequisites };
 
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.gotTeabag;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.noPrerequisites };
+        failMessage = "There's no teabags in stock!";
 
         percentChanceToFail = 20;
     }

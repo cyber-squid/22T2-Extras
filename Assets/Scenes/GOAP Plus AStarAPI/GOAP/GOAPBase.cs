@@ -9,7 +9,7 @@ public class GOAPBase : MonoBehaviour
     Action currentAction;
 
     bool plottingActions;
-
+    bool actionWasSuccessful;
 
     private void Start()
     {
@@ -27,13 +27,22 @@ public class GOAPBase : MonoBehaviour
             currentAction = new ServeTea(this); // start planning from serve tea
             plottingActions = true;
 
-            //currentAction.TryAction(this);
-            if (currentAction.TryAction(this))
+            Debug.Log("the tea making robot started planning!");
+            actionWasSuccessful = currentAction.TryAction(this);
+        }
+
+        if (plottingActions)
+        {
+            if(actionWasSuccessful)
             {
+                plottingActions = false;
                 Debug.Log("You got a fresh cup of tea! :)");
             }
             else
+            {
+                plottingActions = false;
                 Debug.Log("Sorry, no tea for you :(");
+            }
         }
     }
 }

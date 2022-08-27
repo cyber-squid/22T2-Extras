@@ -6,11 +6,8 @@ public class MakeTea : Action
 {
     public MakeTea(GOAPBase gBase)
     {
-        this.actionEffect = "Tea Made";
-        this.neededEffect = new string[] { "Kettle Boiled", "Teabag Added", "Sugar Added" };
-
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.teaMade;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.kettleBoiled,
+        prerequisiteToComplete = gBase.listOfPrerequisites.teaMade;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.kettleBoiled,
                                             gBase.listOfPrerequisites.teabagAdded,
                                             gBase.listOfPrerequisites.sugarAdded };
     }

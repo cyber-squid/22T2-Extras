@@ -6,11 +6,8 @@ public class AddSugar : Action
 {
     public AddSugar(GOAPBase gBase)
     {
-        this.actionEffect = "Sugar Added";
-        this.neededEffect = new string[] { "Got Sugar" };
-
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.sugarAdded;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotSugar };
+        prerequisiteToComplete = gBase.listOfPrerequisites.sugarAdded;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotSugar };
     }
 
     protected override IEnumerator PerformAction(GOAPBase gBase)

@@ -6,12 +6,9 @@ public class AddTeabag : Action
 {
     public AddTeabag(GOAPBase gBase)
     {
-        this.actionEffect = "Teabag Added";
-        this.neededEffect = new string[] { "Got Teabag", "Got Cup" };
-
-        this.prerequisiteToComplete = gBase.listOfPrerequisites.teabagAdded;
-        this.givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotTeabag, 
-                                                       gBase.listOfPrerequisites.gotTeabag };
+        prerequisiteToComplete = gBase.listOfPrerequisites.teabagAdded;
+        givenPrerequisites = new Prerequisite[] { gBase.listOfPrerequisites.gotTeabag, 
+                                                       gBase.listOfPrerequisites.gotCup };
     }
 
     protected override IEnumerator PerformAction(GOAPBase gBase)
